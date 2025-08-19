@@ -6,14 +6,15 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// CORS configuration for production
+// CORS configuration for production with environment variables
 const corsOptions = {
     origin: [
         'https://cewtdao.zone',
         'https://www.cewtdao.zone',
+        process.env.ADDITIONAL_ORIGINS ? process.env.ADDITIONAL_ORIGINS.split(',') : [],
         'http://localhost:3000',
         'http://localhost:5000'
-    ],
+    ].flat().filter(Boolean),
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Accept', 'User-Agent'],
     credentials: true,
@@ -90,7 +91,7 @@ app.post('/api/superbolt-proxy', async (req, res) => {
         
         console.log('✅ Proxy request successful, returning data');
         
-        // Set explicit CORS headers for production
+        // Set explicit CORS headers for production deployment
         res.header('Access-Control-Allow-Origin', 'https://cewtdao.zone');
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Content-Type, Accept, User-Agent');
