@@ -124,14 +124,8 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Serve the main HTML files
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.get('/ICS721.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'ICS721.html'));
-});
+// Note: HTML files are hosted on GoDaddy cPanel
+// This server only handles the Superbolt GraphQL proxy
 
 // Export for Vercel serverless
 module.exports = app;
