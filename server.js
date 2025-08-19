@@ -90,7 +90,7 @@ app.post('/api/superbolt-proxy', async (req, res) => {
         
         console.log('✅ Proxy request successful, returning data');
         
-        // Set explicit CORS headers
+        // Set explicit CORS headers for production
         res.header('Access-Control-Allow-Origin', 'https://cewtdao.zone');
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Content-Type, Accept, User-Agent');
