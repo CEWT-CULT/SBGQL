@@ -1,0 +1,19 @@
+{
+  "name": "cewts",
+  "version": "1.0.0",
+  "description": "CEWT Cult website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "static": "echo 'This is a static website. Open index.html in your browser.'"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
