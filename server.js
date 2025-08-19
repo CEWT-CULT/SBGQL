@@ -6,10 +6,33 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// CORS configuration for production
+const corsOptions = {
+    origin: [
+        'https://cewtdao.zone',
+        'https://www.cewtdao.zone',
+        'http://localhost:3000',
+        'http://localhost:5000'
+    ],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Accept', 'User-Agent'],
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('.')); // Serve static files from current directory
+
+// Handle preflight OPTIONS request
+app.options('/api/superbolt-proxy', (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'https://cewtdao.zone');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Accept, User-Agent');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.status(200).end();
+});
 
 // Proxy endpoint for Superbolt GraphQL API
 app.post('/api/superbolt-proxy', async (req, res) => {
@@ -67,6 +90,12 @@ app.post('/api/superbolt-proxy', async (req, res) => {
         
         console.log('✅ Proxy request successful, returning data');
         
+        // Set explicit CORS headers
+        res.header('Access-Control-Allow-Origin', 'https://cewtdao.zone');
+        res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, Accept, User-Agent');
+        res.header('Access-Control-Allow-Credentials', 'true');
+        
         // Return the data from Superbolt
         res.json(data);
 
@@ -82,6 +111,12 @@ app.post('/api/superbolt-proxy', async (req, res) => {
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
+    // Set explicit CORS headers
+    res.header('Access-Control-Allow-Origin', 'https://cewtdao.zone');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Accept, User-Agent');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    
     res.json({ 
         status: 'healthy', 
         timestamp: new Date().toISOString(),
