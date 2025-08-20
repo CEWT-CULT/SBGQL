@@ -6,14 +6,19 @@
       "use": "@vercel/node"
     },
     {
-      "src": "api/**/*.js",
+      "src": "sales-feed.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/sales-feed",
-      "dest": "/api/sales-feed.js"
+      "dest": "/sales-feed.js"
+    },
+    {
+      "src": "/api/sales-feed",
+      "dest": "/sales-feed.js",
+      "methods": ["GET", "POST", "OPTIONS"]
     },
     {
       "src": "/api/(.*)",
