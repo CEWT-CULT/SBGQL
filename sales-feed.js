@@ -28,25 +28,23 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         query: `
-          query SalesFeed($collectionId: String!) {
+          query GetRecentSales($collectionId: String!) {
             auctions(
-              where: { collection_id: { equals: $collectionId } }
-              orderBy: { settle_date: desc }
-              take: 50
+              where: {
+                collection_id: { equals: $collectionId }
+                settled: { equals: true }
+              }
+              orderBy: [{ settle_date: { sort: desc } }]
+              take: 25
             ) {
               settle_date
               settle_amount
               denom
-              buyer {
-                address_id
-              }
-              seller {
-                address_id
-              }
+              buyer { address_id }
+              seller { address_id }
               nft {
                 nft_id
                 name
-                image
               }
             }
           }
@@ -70,6 +68,7 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     
+    // Return the auctions data directly
     res.status(200).json({ data: data.data });
     
   } catch (error) {
